@@ -1,0 +1,19 @@
+syntax = "proto3";
+
+package zfs;
+
+message Volume {
+    string name = 1;
+}
+
+message ListVolumesRequest {
+
+}
+
+message ListVolumesReply {
+    repeated Volume pools = 1;
+}
+
+service Zfs {
+    rpc ListVolumes(ListVolumesRequest) returns (ListVolumesReply) {}
+}

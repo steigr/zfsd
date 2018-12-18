@@ -1,0 +1,29 @@
+syntax = "proto3";
+
+package zpool;
+
+message Pool {
+    message Property {
+        string value = 1;
+        string source = 2;
+    }
+    repeated Property properties = 1;
+
+    message Feature {
+        string name = 1;
+        string value = 2;
+    }
+    repeated Feature features = 2;
+}
+
+message ListPoolsRequest {
+
+}
+
+message ListPoolsReply {
+    repeated Pool pools = 1;
+}
+
+service ZPool {
+    rpc ListPools(ListPoolsRequest) returns (ListPoolsReply) {}
+}
