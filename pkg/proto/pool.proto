@@ -1,0 +1,56 @@
+syntax = "proto3";
+
+package zfs;
+
+import "common.proto";
+
+message PoolT {
+    string name = 1;
+    repeated Property properties = 2;
+}
+
+message ListPoolRequest {
+}
+
+message ListPoolReply {
+    repeated PoolT pools = 1;
+}
+
+message GetPoolRequest {
+    string name = 1;
+}
+
+message GetPoolReply {
+    PoolT pool = 1;
+}
+
+message CreatePoolRequest {
+
+}
+
+message CreatePoolReply {
+
+}
+message DeletePoolRequest {
+
+}
+
+message DeletePoolReply {
+
+}
+
+message UpdatePoolRequest {
+
+}
+
+message UpdatePoolReply {
+
+}
+
+service Pool {
+    rpc List(ListPoolRequest) returns (ListPoolReply) {}
+    rpc Get(GetPoolRequest) returns (GetPoolReply) {}
+    rpc Create(CreatePoolRequest) returns (CreatePoolReply) {}
+    rpc Delete(DeletePoolRequest) returns (DeletePoolReply) {}
+    rpc Update(UpdatePoolRequest) returns (UpdatePoolReply) {}
+}

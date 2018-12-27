@@ -1,0 +1,9 @@
+syntax = "proto3";
+
+package zfs;
+
+message Property {
+    string key = 1;
+    string source = 2;
+    string value = 3;
+}

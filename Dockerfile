@@ -13,19 +13,22 @@ RUN  cd /usr/src/zfs-${ZFS_VERSION} \
  &&  make -l8 install DESTDIR=/libzfs
 
 FROM libzfs-depenencies AS compiler
-RUN  apt-get install -y protobuf-compiler
+RUN  apt-get install -y unzip
+RUN  curl -L -o /tmp/protoc.zip https://github.com/protocolbuffers/protobuf/releases/download/v3.6.1/protoc-3.6.1-linux-x86_64.zip \
+ &&  cd /usr/local \
+ &&  unzip /tmp/protoc.zip \
+ &&  rm /tmp/protoc.zip
 RUN  go get github.com/golang/protobuf/protoc-gen-go
 RUN  git clone https://github.com/grpc-ecosystem/grpc-gateway /go/src/github.com/grpc-ecosystem/grpc-gateway
 COPY --from=libzfs-compiler /libzfs /
-WORKDIR /go/src/github.com/steigr/zfs
+WORKDIR /go/src/github.com/steigr/zfsd
+ENV GO111MODULE=on
 COPY go.mod go.mod
 COPY go.sum go.sum
-ENV  GO111MODULE=on
 RUN  go mod download
 COPY Makefile Makefile
 COPY cmd cmd
 COPY pkg pkg
-RUN  make proto
 RUN  make zfsd
 
 FROM docker.io/library/alpine:3.8 AS zfsd

@@ -1,37 +1,28 @@
+// +build linux,cgo
+
 package main
 
 import (
 	"flag"
 	"github.com/golang/glog"
-	"github.com/google/go-microservice-helpers/server"
-	"github.com/google/go-microservice-helpers/tracing"
-	"github.com/steigr/zfsd/pkg/proto/zfs"
-	"github.com/steigr/zfsd/pkg/proto/zpool"
-	zfs_server "github.com/steigr/zfsd/pkg/zfs"
-	zpool_server "github.com/steigr/zfsd/pkg/zpool"
+	"github.com/steigr/zfsd/pkg/proto"
+	"github.com/steigr/zfsd/pkg/server"
+	"github.com/steigr/zfsd/pkg/util"
 )
 
 func main() {
 	flag.Parse()
 	defer glog.Flush()
 
-	err := tracing.InitTracer(*serverhelpers.ListenAddress, "zfsd")
-	if err != nil {
-		glog.Fatalf("failed to init tracing interface: %v", err)
-	}
-
-	zpoolSrv := zpool_server.New()
-	zfsSrv := zfs_server.New()
-
-	grpcServer, _, err := serverhelpers.NewServer()
+	grpcServer, err := util.NewServer()
 	if err != nil {
 		glog.Fatalf("failed to init GRPC server: %v", err)
 	}
 
-	zpool.RegisterZPoolServer(grpcServer, &zpoolSrv)
-	zfs.RegisterZfsServer(grpcServer, &zfsSrv)
+	zfs.RegisterDatasetServer(grpcServer, server.DatasetServer())
+	zfs.RegisterPoolServer(grpcServer, server.PoolServer())
 
-	err = serverhelpers.ListenAndServe(grpcServer, nil)
+	err = util.ListenAndServe(grpcServer)
 	if err != nil {
 		glog.Fatalf("failed to serve: %v", err)
 	}
