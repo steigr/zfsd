@@ -1,3 +1,5 @@
+FROM scratch AD quay-quirk
+
 ARG  GOLANG_VERSION=1.11.4
 FROM docker.io/library/golang:${GOLANG_VERSION} AS libzfs-depenencies
 RUN  apt-get update
