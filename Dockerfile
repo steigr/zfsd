@@ -1,7 +1,4 @@
-FROM scratch AD quay-quirk
-
-ARG  GOLANG_VERSION=1.11.4
-FROM docker.io/library/golang:${GOLANG_VERSION} AS libzfs-depenencies
+FROM docker.io/library/golang:1.11.4 AS libzfs-depenencies
 RUN  apt-get update
 RUN  apt-get install -y zlib1g-dev uuid-dev libblkid-dev
 
@@ -33,6 +30,6 @@ COPY cmd cmd
 COPY pkg pkg
 RUN  make zfsd
 
-FROM docker.io/library/alpine:3.8 AS zfsd
+FROM alpine AS zfsd
 COPY --from=compiler /go/bin/zfsd /bin/zfsd
 ENTRYPOINT ["zfsd"]
