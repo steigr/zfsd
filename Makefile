@@ -1,5 +1,18 @@
 DOCKERIMAGE ?= zfsd
-STATIC_LIBS ?= /usr/lib/libzfs.a /usr/lib/libzpool.a /usr/lib/libnvpair.a /usr/lib/libzfs_core.a /usr/lib/libuutil.a /usr/lib/x86_64-linux-gnu/libz.a /usr/lib/x86_64-linux-gnu/libblkid.a /usr/lib/x86_64-linux-gnu/libpthread.a /usr/lib/x86_64-linux-gnu/libuuid.a /usr/lib/x86_64-linux-gnu/libm.a
+STATIC_LIBS ?= /usr/lib/libzfs.a \
+  /usr/lib/libzpool.a \
+  /usr/lib/libnvpair.a \
+  /usr/lib/libzfs_core.a \
+  /usr/lib/libuutil.a \
+  /usr/lib/x86_64-linux-gnu/libcrypto.a \
+  /usr/lib/x86_64-linux-gnu/libssl.a \
+  /usr/lib/x86_64-linux-gnu/libz.a \
+  /usr/lib/x86_64-linux-gnu/libblkid.a \
+  /usr/lib/x86_64-linux-gnu/libpthread.a \
+  /usr/lib/x86_64-linux-gnu/libuuid.a \
+  /usr/lib/x86_64-linux-gnu/libm.a \
+  /usr/lib/x86_64-linux-gnu/libdl.a
+
 PROTOCOLS    = $(wildcard pkg/proto/*.proto)
 DEBUG_ADDRESS ?= 172.16.167.134
 
